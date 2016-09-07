@@ -40,4 +40,5 @@ controllerMappings
     .addMethod("POST", "createFeedback")
     .postPriviledge("READ_CONTENT")
     .build();
-
+    
+controllerMappings.addNodeType("kfeedbackSubmittedGoal", "kfeedback/jb/kfeedbackSubmittedGoalNode.js");
