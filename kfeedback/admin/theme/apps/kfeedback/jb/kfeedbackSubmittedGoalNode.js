@@ -14,7 +14,7 @@ JBNodes['kfeedbackSubmittedGoal'] = {
         }
     },
 
-    customNodeType: 'kfeedbackSubmittedGoal',
+    nodeTypeClass: 'customGoal',
 
     settingEnabled: false,
 
