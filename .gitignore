@@ -1,0 +1,9 @@
+.mil
+.spliffy
+*.mil
+*.spliffy
+.idea
+*.bat
+*.h2.db
+*.lock.db
+ksync.jar
