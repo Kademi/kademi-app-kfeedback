@@ -86,6 +86,8 @@ function createFeedback(page, params) {
 
     securityManager.runAsUser(dbUser, function () {
         db.createNew(cur, JSON.stringify(feedback), TYPE_FEEDBACK + '-' + surveyId);
+        
+        eventManager.goalAchieved("kfeedbackSubmittedGoal");
     });
 
     return views.jsonObjectView(JSON.stringify({

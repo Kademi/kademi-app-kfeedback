@@ -42,3 +42,15 @@ controllerMappings
     .build();
     
 controllerMappings.addNodeType("kfeedbackSubmittedGoal", "kfeedback/jb/kfeedbackSubmittedGoalNode.js");
+
+controllerMappings.addComponent( "kfeedback", "kfeedbackEmail", "email", "Shows emoticons with links");
+
+
+
+
+
+
+
+
+
+
