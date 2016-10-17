@@ -24,6 +24,16 @@
                         component.attr('data-surveyname', surveyName);
                         keditor.initDynamicContent(dynamicElement);
                     });
+                    form.find('.select-website').on('change', function () {
+                        var websiteName = this.value;
+
+                        var component = keditor.getSettingComponent();
+                        var dynamicElement = component.find('[data-dynamic-href]');
+
+                        component.attr('data-websitename', websiteName);
+                        keditor.initDynamicContent(dynamicElement);
+                    });
+                    
                 }
             });
         },
@@ -32,6 +42,7 @@
 
             var dataAttributes = keditor.getDataAttributes(component, ['data-type'], false);
             form.find('.select-survey').val(dataAttributes['data-surveyname']);
+            form.find('.select-website').val(dataAttributes['data-websitename']);
         }
     };
 

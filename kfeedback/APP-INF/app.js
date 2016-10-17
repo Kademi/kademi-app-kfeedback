@@ -45,9 +45,23 @@ controllerMappings.addNodeType("kfeedbackSubmittedGoal", "kfeedback/jb/kfeedback
 
 controllerMappings.addComponent( "kfeedback", "kfeedbackEmail", "email", "Shows emoticons with links");
 
+controllerMappings.addTextJourneyField( "kfeedback-result", "KFeedback result", "getLastFeedbackResult"); // see function below
 
 
-
+function getLastFeedbackResult(lead, exitingNode, funnel, vars) {
+    var jsonDB = page.find(JSON_DB);
+    var db = jsonDB.find(dbName);
+    
+    // find most recent response from this profile
+    var searchResults = db.search(JSON.stringify({
+        "term" : { "profileId" : lead.profile.id },
+        "sort" : { "created" : {"order" : "desc"}}
+    }));
+    flog("results", searchResults);
+    flog("num hits", searchResults.hits.hits.length);
+    // TODO
+    return "happy";
+}
 
 
 

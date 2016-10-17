@@ -1,5 +1,4 @@
-#set( $jsonDatabases = $rootFolder.find("/jsondb/") )
-#set( $kfeedbackDb = $jsonDatabases.child("kfeedback") )
+#set( $kfeedbackDb = $applications.KongoDB.findDatabase("kfeedback") )
 #set( $survey = $kfeedbackDb.child($surveyname) )
 #set( $website = $rootFolder )
 
@@ -19,3 +18,4 @@
 #else
 <p>No survey selected, or it has been removed</p>
 #end
+
