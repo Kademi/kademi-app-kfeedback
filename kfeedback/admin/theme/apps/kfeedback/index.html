@@ -16,6 +16,14 @@
     <section ui-view></section>
 </div>
 
+<script>
+    var fwebsites = [];
+    #set ($wm = $page.find('/websites'))
+    #foreach($w in $wm.websites)
+        #set ($url = "http://${formatter.getDomainName($w)}/")
+        fwebsites.push({name: '$w.name', url: '$url'});
+    #end
+</script>
 
 <script src="http://code.highcharts.com/stock/highstock.src.js"></script>
 <script src="/theme/apps/kfeedback/js/libs.js">//</script>

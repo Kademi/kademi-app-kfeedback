@@ -43,7 +43,7 @@ $(document).ready(function () {
                 redirectLink = window.survey.options[i].redirectLink;
             }
         }
-
+        debugger;
         $.ajax({
             url: config.apiUrl,
             type: 'POST',
@@ -53,7 +53,8 @@ $(document).ready(function () {
                 'option_slug': optionSlug,
                 'option_text': optionText,
                 'website': website,
-                'profileId': window.survey.userId
+                'profileId': window.survey.userId,
+                'miltonUserUrl': window.survey.miltonUserUrl
             },
             success: function (data) {
                 console.log(data)

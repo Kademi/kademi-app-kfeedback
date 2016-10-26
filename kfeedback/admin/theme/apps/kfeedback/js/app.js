@@ -114,7 +114,7 @@ App.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     function lazyRouteParser(routes) {
         angular.forEach(routes, function (stateConfig, state) {
             var parentState = state.replace(/(^|\.)[^.]+$/, '')
-                , templateUrl = $rootApp + 'views/' + state + '.html?v=333'
+                , templateUrl = $rootApp + 'views/' + state + '.html?v=334'
                 , controller = state.replace(/(^|\.|-)(.)/g, function () {
                         return arguments[2].toUpperCase()
                     }) + 'Ctrl';
@@ -193,7 +193,7 @@ App.controller('SiteCtrl', function () {
 App.controller('SurveysDetailCtrl', function ($scope, $state, Surveys, $stateParams, survey) {
     $scope.edit = false;
     $scope.submitText = 'Submit';
-
+    $scope.websites = fwebsites;
     if (survey != null) {
         $scope.edit = true;
         $scope.survey = survey;
@@ -207,17 +207,17 @@ App.controller('SurveysDetailCtrl', function ($scope, $state, Surveys, $statePar
             options: [
                 {
                     title: 'Happy',
-                    emoji: 'http://minda.olhub.com/theme/apps/kfeedback/emoji/happy.png',
+                    emoji: '/theme/apps/kfeedback/emoji/happy.png',
                     slug: 'happy'
                 },
                 {
                     title: 'Neutral',
-                    emoji: 'http://minda.olhub.com/theme/apps/kfeedback/emoji/neutral.png',
+                    emoji: '/theme/apps/kfeedback/emoji/neutral.png',
                     slug: 'neutral'
                 },
                 {
                     title: 'Sad',
-                    emoji: 'http://minda.olhub.com/theme/apps/kfeedback/emoji/sad.png',
+                    emoji: '/theme/apps/kfeedback/emoji/sad.png',
                     slug: 'sad'
                 }
             ]
@@ -325,11 +325,9 @@ App.controller('SurveysListCtrl', function ($scope, $state, $stateParams, Survey
 
 App.controller('SurveysViewCtrl', function ($scope, $state, Surveys, $stateParams, survey, feedbacks, NgTableParams, Chart) {
     $scope.survey = survey;
-    //$scope.website = window.location.origin.replace('admin.', '');
-    $scope.website = 'http://minda.olhub.com';
-    $scope.kApp = '/send-feedback/?survey=' + survey.slug + '&option=';
+    $scope.kApp = 'send-feedback/?survey=' + survey.slug + '&option=';
 
-    $scope.htmlcode = Surveys.getEmailTemplate($scope.website, $scope.kApp, $scope.survey);
+    $scope.htmlcode = Surveys.getEmailTemplate(survey.website, $scope.kApp, $scope.survey);
 
     $scope.tableFeedbacks = new NgTableParams({
         filter: {},
@@ -345,7 +343,7 @@ App.controller('SurveysViewCtrl', function ($scope, $state, Surveys, $stateParam
     });
 
     $scope.$watch('[website]', function(){
-        $scope.htmlcode = Surveys.getEmailTemplate($scope.website, $scope.kApp, $scope.survey);
+        $scope.htmlcode = Surveys.getEmailTemplate($scope.survey.website, $scope.kApp, $scope.survey);
     });
 
     var clipboard = new Clipboard('.btn-copy-template');
@@ -664,9 +662,8 @@ App.service('Surveys', function ($q, config, $http, config) {
 
 
     this.getOptionLink = function (website, app, option) {
-        //var link = $scope.website + $scope.kApp + option.slug + '&@{login}';
-        var link = website + app + option.slug+'&@{login}';
-        var img = '<img src="' + option.emoji + '" width="40" height="40" alt="' + option.title + '" />';
+        var link = website + app + option.slug;
+        var img = '<img src="' + website + option.emoji + '" width="40" height="40" alt="' + option.title + '" />';
         var html = '<a href="' + link + '">' + img + '</a>';
 
         return html;

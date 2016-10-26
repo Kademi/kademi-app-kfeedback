@@ -30,6 +30,7 @@ function getSurvey(page, params) {
             if (currentUser !== null) {
                 log.info('current user {}', currentUser);
                 result.survey.userId = currentUser.userId;
+                result.survey.miltonUserUrl = params.miltonUserUrl;
             }
         }
     }
@@ -86,8 +87,15 @@ function createFeedback(page, params) {
 
     securityManager.runAsUser(dbUser, function () {
         db.createNew(cur, JSON.stringify(feedback), TYPE_FEEDBACK + '-' + surveyId);
-
-        eventManager.goalAchieved("kfeedbackSubmittedGoal");
+        if (params.miltonUserUrl){
+            var userResource = page.find(params.miltonUserUrl);
+            if (userResource){
+                var profileBean = userResource.profile;
+                eventManager.goalAchieved("kfeedbackSubmittedGoal", profileBean);
+            }
+        } else {
+            eventManager.goalAchieved("kfeedbackSubmittedGoal");
+        }
     });
 
     return views.jsonObjectView(JSON.stringify({

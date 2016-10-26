@@ -7,8 +7,8 @@
     <tr>
     #foreach( $option in $survey.jsonObject.options )
         <td align="center" >
-            <a href="${website.externalUrl}send-feedback/?survey=$surveyname&option=$option.slug&@{login}">
-                <img src="$option.emoji" width="40" height="40" alt="$option.title" />
+            <a href="${website.externalUrl}send-feedback/?survey=$surveyname&option=$option.slug">
+                <img src="${website.externalUrl}$option.emoji" width="40" height="40" alt="$option.title" />
             </a>
         </td>
     #end

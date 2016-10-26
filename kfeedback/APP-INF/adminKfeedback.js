@@ -51,6 +51,7 @@ function createSurvey(page, params) {
         name: params.name,
         question: params.question,
         created: params.created,
+        website: params.website,
         options: JSON.parse(op)
     };
 
