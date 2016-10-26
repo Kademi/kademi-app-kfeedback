@@ -1,4 +1,5 @@
-<controllers>
+<controllers onAppEnabled="initApp">
+  <source>/APP-INF/utils.js</source>
   <source>/APP-INF/config.js</source>
   <source>/APP-INF/app.js</source>
   <source>/APP-INF/adminKfeedback.js</source>

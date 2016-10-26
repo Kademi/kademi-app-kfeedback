@@ -13,7 +13,7 @@ function getSurvey(page, params) {
         msg: 'Survey is not exist'
     };
 
-    if (db === null || surveySlug == null) {
+    if (isNull(jsonDB) || isNull(db) || surveySlug == null) {
         return views.textView(JSON.stringify({
             status: 0,
             msg: 'Survey is not exist'
@@ -21,7 +21,7 @@ function getSurvey(page, params) {
     } else {
         var exists = db.child(surveySlug);
         log.warn(JSON.parse(exists.jsonObject));
-        if (exists !== null) {
+        if (isNotNull(exists)) {
             result = {
                 status: 1,
                 survey: JSON.parse(exists.jsonObject)
@@ -86,7 +86,7 @@ function createFeedback(page, params) {
 
     securityManager.runAsUser(dbUser, function () {
         db.createNew(cur, JSON.stringify(feedback), TYPE_FEEDBACK + '-' + surveyId);
-        
+
         eventManager.goalAchieved("kfeedbackSubmittedGoal");
     });
 

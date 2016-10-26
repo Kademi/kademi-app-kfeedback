@@ -63,7 +63,32 @@ function getLastFeedbackResult(lead, exitingNode, funnel, vars) {
     return "happy";
 }
 
+function initApp(orgRoot, webRoot, enabled){
+    log.info("initApp: orgRoot={}", orgRoot);
 
+    var dbs = orgRoot.find(JSON_DB);
+    if (isNull(dbs)) {
+        page.throwNotFound('KongoDB is disabled. Please enable it for continue with this app!');
+        return;
+    }
+    var db = dbs.child(dbName);
+
+    if (isNull(db)) {
+        log.info('{} does not exist!', dbTitle);
+
+        db = dbs.createDb(dbName, dbTitle, dbName);
+
+        if (!db.allowAccess) {
+            setAllowAccess(db, true);
+        }
+    }
+}
+
+function setAllowAccess(db, allowAccess) {
+    transactionManager.runInTransaction(function () {
+        db.setAllowAccess(allowAccess);
+    });
+}
 
 
 
