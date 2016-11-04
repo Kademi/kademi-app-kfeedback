@@ -49,18 +49,39 @@ controllerMappings.addTextJourneyField( "kfeedback-result", "KFeedback result", 
 
 
 function getLastFeedbackResult(lead, exitingNode, funnel, vars) {
-    var jsonDB = page.find(JSON_DB);
-    var db = jsonDB.find(dbName);
-    
+    log.info('getLastFeedbackResult lead={} node={} funnel={} vars={}', lead, exitingNode, funnel, vars );
+    var profileId = lead.profile.id;
+    log.info("getLastFeedbackResult: profileid={}", profileId);
+    var jsonDB = applications.KongoDB.findDatabase(dbName);
+    log.info('jsondb is {}', jsonDB);
+
+    var db = jsonDB;
+    if( db == null ) {
+        log.error("Could not find database " + dbName );
+        return null;
+    }
+    var queryJson = {
+        'fields': ['option_slug'],
+        'query': {
+            'bool': {
+                'must': {
+                    "term": {"profileId": profileId}
+                }
+            }
+        },
+        'size': 1,
+        'sort': [
+            { "created" : "desc" }
+        ]
+    };
     // find most recent response from this profile
-    var searchResults = db.search(JSON.stringify({
-        "term" : { "profileId" : lead.profile.id },
-        "sort" : { "created" : {"order" : "desc"}}
-    }));
-    flog("results", searchResults);
-    flog("num hits", searchResults.hits.hits.length);
-    // TODO
-    return "happy";
+    var searchResult = db.search(JSON.stringify(queryJson));
+    log.info('search hit {}', searchResult.hits.totalHits);
+    if (searchResult.hits.totalHits > 0){
+        var hit = searchResult.hits.hits[0];
+        log.info('option slug return {}', hit.fields.option_slug.value);
+        return hit.fields.option_slug.value;
+    }
 }
 
 function initApp(orgRoot, webRoot, enabled){
@@ -89,7 +110,3 @@ function setAllowAccess(db, allowAccess) {
         db.setAllowAccess(allowAccess);
     });
 }
-
-
-
-

@@ -43,7 +43,7 @@ $(document).ready(function () {
                 redirectLink = window.survey.options[i].redirectLink;
             }
         }
-        debugger;
+        //debugger;
         $.ajax({
             url: config.apiUrl,
             type: 'POST',
